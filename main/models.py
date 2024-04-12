@@ -1,9 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
-# Create your models here.
-class playlist_user(models.Model):
+
+
+
+
+
+class playlist_user(AbstractUser):
     username = models.CharField(max_length=200)
+    email = models.CharField(max_length=60, unique=True)
+    
 
     def __str__(self):
         return f'Username = {self.username}, Liked Songs = {list(self.playlist_song_set.all())}'
