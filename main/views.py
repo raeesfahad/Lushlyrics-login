@@ -1,18 +1,19 @@
 from django.http.response import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from .models import playlist_user
+from django.contrib.auth import get_user_model
 from django.urls.base import reverse
 from django.contrib.auth import authenticate,login,logout
 from youtube_search import YoutubeSearch
 import json
 # import cardupdate
 
-
+User = get_user_model();
 
 f = open('card.json', 'r')
 CONTAINER = json.load(f)
 
+@login_required
 def default(request):
     global CONTAINER
 
@@ -26,9 +27,9 @@ def default(request):
     return render(request, 'player.html',{'CONTAINER':CONTAINER, 'song':song})
 
 
-
+@login_required
 def playlist(request):
-    cur_user = playlist_user.objects.get(username = request.user)
+    cur_user = User.objects.get(username = request.user.username)
     try:
       song = request.GET.get('song')
       song = cur_user.playlist_song_set.get(song_title=song)
@@ -43,7 +44,7 @@ def playlist(request):
     # print(list(playlist_row)[0].song_title)
     return render(request, 'playlist.html', {'song':song,'user_playlist':user_playlist})
 
-
+@login_required
 def search(request):
   if request.method == 'POST':
 
@@ -61,9 +62,9 @@ def search(request):
 
 
 
-
+@login_required
 def add_playlist(request):
-    cur_user = playlist_user.objects.get(username = request.user)
+    cur_user = User.objects.get(username = request.user.username)
 
     if (request.POST['title'],) not in cur_user.playlist_song_set.values_list('song_title', ):
 
@@ -73,12 +74,5 @@ def add_playlist(request):
         song_albumsrc = song__albumsrc,
         song_channel=request.POST['channel'], song_date_added=request.POST['date'],song_youtube_id=request.POST['songid'])
 
-def login(request):
-   
-   return render(request, 'login.html')
-
-def signup(request):
-   
-   return render(request, 'signup.html')
 
 

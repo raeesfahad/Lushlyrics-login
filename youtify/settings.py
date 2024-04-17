@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,10 @@ TEMPLATES = [
         },
     },
 ]
+
+
+
+
 
 WSGI_APPLICATION = 'youtify.wsgi.application'
 
@@ -114,6 +119,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = "accounts/login"
+LOGIN_URL = "accounts/logout"
+
+EMAIL_HOST_USER = "system@lushylyrics.com"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+AUTH_USER_MODEL = 'authentication.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

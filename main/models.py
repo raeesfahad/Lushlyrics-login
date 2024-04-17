@@ -1,22 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 
 
 
-
-
-
-
-class playlist_user(AbstractUser):
-    username = models.CharField(max_length=200)
-    email = models.CharField(max_length=60, unique=True)
-    
-
-    def __str__(self):
-        return f'Username = {self.username}, Liked Songs = {list(self.playlist_song_set.all())}'
+User = get_user_model()
 
 class playlist_song(models.Model):
-    user = models.ForeignKey(playlist_user, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     song_title = models.CharField(max_length=200)
     song_youtube_id =  models.CharField(max_length=20)
     song_albumsrc = models.CharField(max_length=255)

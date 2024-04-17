@@ -105,7 +105,7 @@
         </div>
 
 
-        <a class="profile-container" href="/logout">
+        <a class="profile-container" href="{% url "logout" %}">
             <button class="profile">
                 <div class="profile-pic">
                     <svg width="16" height="16" fill="white" viewBox="0 0 18 20" xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,7 @@
                         </path>
                     </svg>
                 </div>
-                <span class='username hide-onhover'>{{ request.user }}</span>
+                <span class='username hide-onhover'>{{ request.user.full_name }}</span>
                 <span class='logout username'>Logout</span>
             </button>
 
